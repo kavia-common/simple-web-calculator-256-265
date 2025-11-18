@@ -3,16 +3,16 @@ import React from 'react';
 // PUBLIC_INTERFACE
 function Button({ value, onClick, type, active, ariaLabel }) {
   /**
-   * Calculator button component.
+   * Calculator button component styled with iOS-inspired "pill" smoothness.
    * @param {string} value Display value of the button.
    * @param {function} onClick Click handler.
    * @param {string} type Button type: 'num', 'op', 'utility', or 'equals'.
    * @param {boolean} active If the button is currently active/selected.
    * @param {string} ariaLabel Accessible label for screen readers.
    */
-  let className = 'calc-btn';
-  if (type) className += ' calc-btn-' + type;
-  if (active) className += ' calc-btn-active';
+  let className = 'calc-btn-ios';
+  if (type) className += ' calc-btn-ios-' + type;
+  if (active) className += ' calc-btn-ios-active';
 
   return (
     <button
@@ -22,6 +22,7 @@ function Button({ value, onClick, type, active, ariaLabel }) {
       aria-pressed={!!active}
       aria-label={ariaLabel || value}
       tabIndex={0}
+      // tabindex, aria-pressed, role handled for accessibility
     >
       {value}
     </button>

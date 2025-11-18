@@ -69,25 +69,169 @@
   gap: 0.8rem;
 }
 
-.calc-btn {
+/* === iOS-Inspired Calculator Buttons === */
+.calc-btn-ios {
   flex: 1 1 0;
-  background: var(--calc-surface);
-  color: var(--calc-text);
-  font-size: 1.3rem;
-  font-family: inherit;
-  border: 2px solid var(--calc-border);
-  border-radius: var(--calc-btn-radius);
-  box-shadow: 0 0.5px 3px #0001;
-  outline: none;
-  cursor: pointer;
   min-width: 3.8rem;
-  min-height: 3rem;
+  min-height: 2.84rem;
+  /* Ensures hit area ~44x44px minimum on mobile */
+  padding: 0.45rem 0.3rem;
+  font-size: 1.29rem;
+  font-weight: 500;
+  font-family: inherit;
+  border: none;
+  border-radius: 2.1rem; /* Large enough for pill/squircle (iOS) */
+  background: linear-gradient(180deg, #fafdff 0%, #e9f1fb 100%);
+  color: var(--calc-text);
+  box-shadow:
+    0 1.7px 6.5px 0 #a6c8ee29,
+    0 0.5px 1.6px 0 #3b82f603,
+    0 0.5px 0.8px #fff8 inset;
   margin: 0;
   user-select: none;
+  cursor: pointer;
+  outline: none;
+  position: relative;
   transition:
-    background 0.13s, border 0.12s, color 0.17s, box-shadow 0.12s;
-  will-change: background, color;
+    background 0.22s cubic-bezier(.6,.4,.24,1.12),
+    box-shadow 0.18s cubic-bezier(.6,.4,.24,1.1),
+    color 0.18s,
+    transform 0.11s,
+    border-color 0.14s;
+
+  /* Visual depth -- subtle glow/shine, accessible contrast */
+  will-change: background, color, box-shadow, transform;
 }
+
+.calc-btn-ios:hover,
+.calc-btn-ios:focus-visible {
+  background: linear-gradient(180deg,#fafdff 2%, #e1eafd 85%, #dbe4f5 100%);
+  box-shadow:
+    0 4px 14px 0 #69a2ec35,
+    0 0.5px 2px #3b82f622;
+  z-index: 1;
+}
+.calc-btn-ios:focus-visible {
+  outline: 3px solid var(--calc-primary);
+  outline-offset: 2px;
+}
+
+/* Pressed (tactile depth) */
+.calc-btn-ios:active {
+  background: linear-gradient(180deg, #e4ecf6 0%, #dde7fa 90%);
+  box-shadow:
+    0 0.5px 2px #3b82f60c,
+    0 0px 2.5px #60bee015 inset,
+    0 0 0 4px #3b82f624;
+  transform: scale(0.965);
+}
+
+/* Numeric buttons ("num") */
+.calc-btn-ios-num {
+  background: linear-gradient(180deg,#fafdff 0%,#eaf3fb 100%);
+  color: var(--calc-text);
+}
+.calc-btn-ios-num:active {
+  background: linear-gradient(180deg, #e1e7f1 0%, #e6eef8 95%);
+}
+
+/* Utility buttons (C, ⌫) */
+.calc-btn-ios-utility {
+  background: linear-gradient(180deg,#ecfbfe 0%, #d1f5fa 98%);
+  color: var(--calc-accent);
+  font-weight: 600;
+  border: 2px solid #00c4ec29;
+  box-shadow:
+    0 2px 10px #06b6d418,
+    0 0.5px 0.9px #cff9ff7c inset;
+}
+.calc-btn-ios-utility:active {
+  background: linear-gradient(180deg,#cadef8 0%, #bae7f5 100%);
+  color: #109bb7;
+  box-shadow:
+    0 0.2px 2px #3b82f60e,
+    0 0 .7px #06b6d444 inset;
+}
+
+/* Operator buttons (+ − × ÷) */
+.calc-btn-ios-op {
+  background: linear-gradient(180deg,#eaf3fd 0%,#dbeaff 90%);
+  color: var(--calc-primary);
+  font-weight: 700;
+  border: 2px solid #3b82f618;
+  box-shadow:
+    0 2px 12px #3b82f60c,
+    0 0.5px 0.7px #3b82f629 inset;
+}
+.calc-btn-ios-op:active,
+.calc-btn-ios-op.calc-btn-ios-active {
+  background: linear-gradient(180deg, #3b82f6 0%, #307ddc 100%);
+  color: #fff;
+  box-shadow:
+    0 1.5px 7px #4570dd23,
+    0 0.5px 2px #fff6 inset;
+}
+
+/* Equals button */
+.calc-btn-ios-equals {
+  background: linear-gradient(180deg, #06b6d4 10%, #33d5f7 80%, #27cfff 100%);
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid #06b6d4;
+  box-shadow:
+    0 2.5px 13px #0891b217,
+    0 0.8px 2.8px #ddfbff45 inset;
+}
+.calc-btn-ios-equals:active,
+.calc-btn-ios-equals:focus-visible {
+  background: linear-gradient(180deg,#3b82f6 0%, #3ad6f8 105%);
+  color: #fff;
+  box-shadow:
+    0 1px 4px #3b82f668, 
+    0 0.8px 1.2px #fff8 inset;
+}
+
+/* Larger tap/click target for accessibility */
+.calc-btn-ios,
+.calc-btn-ios-num,
+.calc-btn-ios-op,
+.calc-btn-ios-utility,
+.calc-btn-ios-equals {
+  min-height: 2.8rem;
+  min-width: 3.7rem;
+  touch-action: manipulation;
+}
+@media (pointer:coarse), (hover:none) {
+  .calc-btn-ios,
+  .calc-btn-ios-num,
+  .calc-btn-ios-op,
+  .calc-btn-ios-utility,
+  .calc-btn-ios-equals {
+    min-height: 2.65rem;
+    min-width: 3.7rem;
+    font-size: 1.19rem;
+  }
+}
+@media (max-width: 600px) {
+  .calc-btn-ios,
+  .calc-btn-ios-num,
+  .calc-btn-ios-op,
+  .calc-btn-ios-utility,
+  .calc-btn-ios-equals {
+    min-height: 2.18rem;
+    font-size: 1.04rem;
+  }
+}
+
+/* Disabled state */
+.calc-btn-ios:disabled {
+  opacity: 0.42;
+  filter: grayscale(42%);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Remove original .calc-btn class as it's replaced by .calc-btn-ios */
 .calc-btn:focus, .calc-btn:active {
   border: 2px solid var(--calc-primary);
   box-shadow: 0 1.5px 8px #3b82f625;
