@@ -10,13 +10,12 @@ function Display({ value, error, ariaLabel }) {
    */
   return (
     <div
-      className="calc-display"
+      className="calc-display display-white"
       aria-live="polite"
       aria-label={ariaLabel}
       tabIndex={0}
       style={{
-        color: error ? 'hsl(0 84% 60%)' : 'var(--calc-text)',
-        background: 'var(--calc-display-bg)'
+        color: error ? 'hsl(0 84% 60%)' : '#111827'
       }}
     >
       {value}

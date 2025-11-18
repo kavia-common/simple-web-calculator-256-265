@@ -53,6 +53,20 @@
   transition: border 0.2s, color 0.2s;
 }
 
+/* Explicit white display variant for contrast and theme consistency */
+.display-white {
+  background: #fff !important;
+  color: #111827 !important;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px #0001, 0 1.5px 6px #e2e8f01a;
+  border: 2px solid #e5e7eb;
+  padding: 1.25rem 1rem 0.75rem 0.85rem;
+  min-height: 2.8rem;
+  font-weight: 600;
+  /* smooth transition, matches theme */
+  transition: border 0.18s, box-shadow 0.18s, color 0.18s, background 0.25s;
+}
+
 .calc-display[aria-live='polite'] {
   font-weight: 600;
 }
