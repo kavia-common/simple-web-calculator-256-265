@@ -13,6 +13,13 @@
   --calc-equals-color: #fff;
   --calc-btn-radius: 0.75rem;
   --calc-error: hsl(0 84% 60%);
+
+  /* Responsiveness for buttons and grid via clamp */
+  --btn-size: clamp(44px, 8vw, 76px);    /* Minimum 44px for tap, scales up to ~76px */
+  --btn-font-size: clamp(1rem, 2vw, 1.45rem);
+  --btn-padding: clamp(0.4rem, 1.5vw, 0.74rem) clamp(0.24rem, 2vw, 1.25rem);
+  --btn-gap: clamp(0.3rem, 1vw, 0.8rem);
+  --grid-col-width: minmax(0, 1fr);
 }
 
 .App {
@@ -23,16 +30,18 @@
 
 .calc-container {
   width: 100%;
-  max-width: 370px;
+  max-width: 410px;
   background: var(--calc-surface);
   border-radius: 1.5rem;
   box-shadow: 0 7px 32px 0 #0002;
-  padding: 2.2rem 1.4rem 1.5rem 1.4rem;
+  padding: clamp(0.7rem, 4vw, 2.2rem) clamp(0.2rem, 4vw, 1.4rem) clamp(0.9rem, 3vw, 1.8rem) clamp(0.2rem, 4vw, 1.4rem);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   margin: 2rem auto;
+  min-width: min(98vw, 280px);
+  min-height: 0;
 }
 
 .calc-display {
@@ -72,28 +81,35 @@
 }
 
 .calc-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+  display: grid;
+  width: 100%;
+  grid-template-rows: repeat(auto-fit, minmax(var(--btn-size), auto));
+  row-gap: var(--btn-gap);
+  column-gap: 0; /* no grid col gap, as .calc-row manages */
 }
 
 .calc-row {
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(4, var(--grid-col-width)); /* always 4 if possible */
+  gap: var(--btn-gap);
+  width: 100%;
+  min-width: 0;
 }
 
 /* === Glossy Calculator Buttons: Enhanced iPhone-inspired Sheen === */
 .calc-btn-ios {
-  flex: 1 1 0;
-  min-width: 3.8rem;
-  min-height: 2.84rem; /* Ensures ~44x44px minimum on mobile */
-  padding: 0.45rem 0.3rem;
-  font-size: 1.29rem;
+  /* Responsive button base (min 44x44px, scales up with clamp) */
+  min-width: var(--btn-size);
+  min-height: var(--btn-size);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--btn-padding);
+  font-size: var(--btn-font-size);
+  line-height: 1.1;
   font-weight: 500;
   font-family: inherit;
   border: none;
-  border-radius: 2.1rem; /* Large enough for pill/squircle */
+  border-radius: 2.1rem;
   color: var(--calc-text);
   margin: 0;
   user-select: none;
@@ -107,17 +123,13 @@
     transform 0.11s,
     border-color 0.14s,
     filter 0.2s cubic-bezier(.6,.4,.24,1.2);
-
-  /* Enhanced multi-layer glossy effect: --------------- */
+  /* Glossy gradient effect */
   background: 
-    linear-gradient(180deg, #fafdff 0%, #d5e6f8 85%, #eaf1fa 100%); /* overall color gradient */
+    linear-gradient(180deg, #fafdff 0%, #d5e6f8 85%, #eaf1fa 100%);
   box-shadow:
     0 2.2px 10px 0 #a6c8ee40,
     0 0.6px 2.2px 0 #3b82f607,
     0 0.5px 0.8px #fff8 inset;
-
-  /* ::before: Top specular/shimmer highlight */
-  /* ::after: Inner wrinkle gloss strip */
 }
 
 .calc-btn-ios::before {
@@ -184,7 +196,9 @@
 }
 .calc-btn-ios:focus-visible {
   outline: 3px solid var(--calc-primary);
-  outline-offset: 2px;
+  outline-offset: 2.5px;
+  box-shadow: 0 0 0 4px #3b82f620, 0 0 0 2px var(--calc-primary);
+  z-index: 2;
 }
 
 /* Pressed (tactile depth, reduced gloss + deeper shadow) */
@@ -193,17 +207,16 @@
   box-shadow:
     0 0.5px 2.8px #3b82f614,
     0 0px 2.5px #60bee012 inset,
-    0 0 0 3px #4aa9f624;
-  transform: scale(0.962);
-  filter: brightness(0.985) saturate(0.97);
+    0 0 0 5px #4aa9f624;
+  transform: scale(0.97);
+  filter: brightness(0.982) saturate(0.95);
+  outline: 2.5px solid var(--calc-primary);
 }
 .calc-btn-ios:active::before {
-  /* Muted specular on press for tactile realism */
   opacity: 0.46;
   filter: blur(2px);
 }
 .calc-btn-ios:active::after {
-  /* Inner gloss fades for "pressed" */
   opacity: 0.22;
 }
 
@@ -328,30 +341,8 @@
 .calc-btn-ios-op,
 .calc-btn-ios-utility,
 .calc-btn-ios-equals {
-  min-height: 2.8rem;
-  min-width: 3.7rem;
   touch-action: manipulation;
-}
-@media (pointer:coarse), (hover:none) {
-  .calc-btn-ios,
-  .calc-btn-ios-num,
-  .calc-btn-ios-op,
-  .calc-btn-ios-utility,
-  .calc-btn-ios-equals {
-    min-height: 2.65rem;
-    min-width: 3.7rem;
-    font-size: 1.19rem;
-  }
-}
-@media (max-width: 600px) {
-  .calc-btn-ios,
-  .calc-btn-ios-num,
-  .calc-btn-ios-op,
-  .calc-btn-ios-utility,
-  .calc-btn-ios-equals {
-    min-height: 2.18rem;
-    font-size: 1.04rem;
-  }
+  /* All sizing inherited from .calc-btn-ios via vars/clamp */
 }
 
 /* Disabled state */
@@ -513,30 +504,48 @@
 /* Responsive Sizing */
 @media (max-width: 600px) {
   .calc-container {
-    max-width: 95vw;
-    padding: 0.9rem 0.2rem 1.2rem 0.2rem;
-  }
-  .calc-btn {
-    font-size: 1.25rem;
+    max-width: 99vw;
     min-width: 0;
-    min-height: 2.4rem;
+    padding: clamp(0.5rem, 2vw, 0.9rem) clamp(0.09rem, 2vw, 0.3rem) clamp(0.66rem, 2vw, 1.2rem) clamp(0.09rem, 2vw, 0.3rem);
+    border-radius: 1.1rem;
+    font-size: 0.99rem;
+  }
+  .calc-grid {
+    row-gap: calc(var(--btn-gap) * 0.85);
+  }
+  .calc-row {
+    gap: calc(var(--btn-gap) * 0.92);
   }
   .calc-display {
-    font-size: 1.2rem;
-    min-height: 1.8rem;
-    padding: 0.7rem 0.4rem 0.44rem 0.5rem;
+    font-size: clamp(1.1rem, 4vw, 1.23rem);
+    min-height: clamp(1.8rem, 7vw, 2.1rem);
+    padding: 0.65rem 0.15rem 0.4rem 0.1rem;
+    word-break: break-all;
   }
 }
 
 .calc-placeholder {
-  flex: 1 1 0;
+  width: 100%;
+  min-width: var(--btn-size);
+  min-height: var(--btn-size);
+  height: 100%;
   background: transparent;
   border: none;
+  display: block;
 }
 
 @media (max-width: 375px) {
   .calc-container {
-    padding: 0.2rem 0.05rem;
-    border-radius: 0.9rem;
+    padding: 0.11rem 0.03rem;
+    border-radius: 0.62rem;
+    min-width: 0;
+  }
+  .calc-display {
+    font-size: clamp(0.9rem, 6vw, 1.07rem);
+    min-height: 1rem;
+    padding: 0.34rem 0.04rem 0.23rem 0.08rem;
+  }
+  .calc-grid {
+    row-gap: 0.1rem;
   }
 }

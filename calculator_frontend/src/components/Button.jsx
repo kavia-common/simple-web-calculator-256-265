@@ -23,6 +23,7 @@ function Button({ value, onClick, type, active, ariaLabel }) {
   if (type) className += ' calc-btn-ios-' + type;
   if (active) className += ' calc-btn-ios-active';
 
+  // No changes to structure or API, all responsiveness in CSS.
   return (
     <button
       type="button"
