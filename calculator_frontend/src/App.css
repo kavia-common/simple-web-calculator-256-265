@@ -13,6 +13,16 @@
   --calc-equals-color: #fff;
   --calc-btn-radius: 0.75rem;
   --calc-error: hsl(0 84% 60%);
+  /* --- Button Customization CSS Vars --- */
+  --btn-size: clamp(44px, 8vw, 76px);    /* min tap: 44px; large: 76px */
+  --btn-font-size: clamp(1rem, 2vw, 1.45rem);
+  --btn-radius: 2.1rem;
+  --btn-bg: unset;
+  --btn-color: unset;
+  --btn-border: unset;
+  --btn-shadow: 0 2.2px 10px 0 #a6c8ee40, 0 0.6px 2.2px 0 #3b82f607, 0 0.5px 0.8px #fff8 inset;
+  --btn-gloss-opacity: 0.94;
+}
 
   /* Responsiveness for buttons and grid via clamp */
   --btn-size: clamp(44px, 8vw, 76px);    /* Minimum 44px for tap, scales up to ~76px */
@@ -109,8 +119,10 @@
   font-weight: 500;
   font-family: inherit;
   border: none;
-  border-radius: 2.1rem;
-  color: var(--calc-text);
+  border-radius: var(--btn-radius, 2.1rem);
+  /* Custom radius overrides */
+  color: var(--btn-color, var(--calc-text));
+  background: var(--btn-bg, linear-gradient(180deg, #fafdff 0%, #d5e6f8 85%, #eaf1fa 100%));
   margin: 0;
   user-select: none;
   cursor: pointer;
@@ -123,13 +135,8 @@
     transform 0.11s,
     border-color 0.14s,
     filter 0.2s cubic-bezier(.6,.4,.24,1.2);
-  /* Glossy gradient effect */
-  background: 
-    linear-gradient(180deg, #fafdff 0%, #d5e6f8 85%, #eaf1fa 100%);
-  box-shadow:
-    0 2.2px 10px 0 #a6c8ee40,
-    0 0.6px 2.2px 0 #3b82f607,
-    0 0.5px 0.8px #fff8 inset;
+  box-shadow: var(--btn-shadow, 0 2.2px 10px 0 #a6c8ee40, 0 0.6px 2.2px 0 #3b82f607, 0 0.5px 0.8px #fff8 inset);
+  border: 2px solid var(--btn-border, transparent);
 }
 
 .calc-btn-ios::before {
@@ -352,6 +359,31 @@
   cursor: not-allowed;
   box-shadow: none;
 }
+
+/* ---- Button Customization Utilities ---- */
+.btn-fullwidth { width: 100% !important; }
+
+/* Shadow intensity variants for Button */
+.btn-shadow-none  { --btn-shadow: none !important; box-shadow: none !important; }
+.btn-shadow-sm    { --btn-shadow: 0 1.2px 3.5px #b8c1e3a7; }
+.btn-shadow-md    { --btn-shadow: 0 2.8px 14px #a6c8ee6a, 0 0.6px 2.2px #3b82f617; }
+.btn-shadow-lg    { --btn-shadow: 0 7px 32px 0 #0002, 0 2.2px 10px #3b82f686; }
+
+/* Gloss intensity utility, changes sheen effect */
+.btn-gloss-none   { --btn-gloss-opacity: 0 !important; }
+.btn-gloss-low    { --btn-gloss-opacity: 0.5; }
+.btn-gloss-med    { --btn-gloss-opacity: 0.77; }
+.btn-gloss-high   { --btn-gloss-opacity: 1; }
+
+/* Use radius utility via CSS var */
+.btn-radius-pill  { --btn-radius: 999px !important; }
+.btn-radius-lg    { --btn-radius: 2rem; }
+.btn-radius-md    { --btn-radius: 1rem; }
+.btn-radius-sm    { --btn-radius: 0.5rem; }
+
+/* Color override: (used via inline style, see --btn-bg, --btn-color, --btn-border) */
+
+/* Accessibility: focus ring and states (remains unchanged below) */
 
 /* Numeric buttons ("num") */
 .calc-btn-ios-num {
